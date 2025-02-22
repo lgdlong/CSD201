@@ -37,7 +37,17 @@ class ItemList {
     void addLast(String name, int quantity, int price) {
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        Item newitem = new Item(name, quantity, price);
+        Node newnode = new Node(newitem);
+        if (head == null) {
+            head = newnode;
+            return;
+        }
+        Node last = head;
+        while (last.next != null) {
+            last = last.next;
+        }
+        last.next = newnode;
         //---------------------------------------------------------
     }
 
@@ -72,7 +82,14 @@ class RequestQueue {
     void enQueue(String name, int quantity) {
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-
+        Item newitem = new Item(name, quantity);
+        Node newnode = new Node(newitem);
+        if (rear == null) {
+            front = rear = newnode;
+            return;
+        }
+        rear.next = newnode;
+        rear = newnode;
         //---------------------------------------------------------
     }
 
@@ -80,7 +97,18 @@ class RequestQueue {
         Item tmp = new Item();
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
+        if (isEmpty()) {
+            return null; 
+        }
+        tmp = front.info;
 
+       
+        front = front.next;
+
+        
+        if (front == null) {
+            rear = null;
+        }
         //---------------------------------------------------------
         return tmp;
     }
