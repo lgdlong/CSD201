@@ -184,7 +184,23 @@ class ComputerStore {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        
+        if (!RQueue.isEmpty()) {
+            Item requestItem = RQueue.deQueue(); // Lấy yêu cầu đầu tiên
+            String itemName = requestItem.getName();
+            int requestedQuantity = requestItem.getQuantity();
+
+            Node currentItem = IList.head;
+            while (currentItem != null) {
+                if (currentItem.info.getName().equals(itemName)) {
+                    // Kiểm tra số lượng và cập nhật nếu đủ hàng
+                    if (currentItem.info.getQuantity() >= requestedQuantity) {
+                        currentItem.info.setQuantity(currentItem.info.getQuantity() - requestedQuantity);
+                    }
+                    break; // Chỉ duyệt và xử lý yêu cầu đầu tiên
+                }
+                currentItem = currentItem.next;
+            }
+        }
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -203,10 +219,30 @@ class ComputerStore {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-
+        while (!RQueue.isEmpty()) {
+            Item requestItem = RQueue.deQueue();
+            processPurchase(requestItem);
+        }
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
+    }
+    
+    void processPurchase(Item requestItem) {
+        String itemName = requestItem.getName();
+        int requestedQuantity = requestItem.getQuantity();
+
+        Node currentItem = IList.head;
+        while (currentItem != null) {
+            if (currentItem.info.getName().equals(itemName)) {
+                int availableQuantity = currentItem.info.getQuantity();
+                if (availableQuantity >= requestedQuantity) {
+                    currentItem.info.setQuantity(availableQuantity - requestedQuantity);
+                }
+                break;
+            }
+            currentItem = currentItem.next;
+        }
     }
 
     void f4() throws Exception {
@@ -223,10 +259,27 @@ class ComputerStore {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-
+        Node tmpRQueue = RQueue.front;
+        while(tmpRQueue!=null){
+            S = S + purchase2();
+            tmpRQueue=tmpRQueue.next;
+        }
         //------------------------------------------------------------------------------------
         f.writeBytes("Money     : " + S + " ");
         f.close();
+    }
+    int purchase2(){
+        Item tmpRQueRQue  = RQueue.deQueue();
+        Node tmpIList = IList.head;
+        while(tmpIList!=null){
+            if(tmpIList.info.getName().equals(tmpRQueRQue.getName())){
+                if(tmpIList.info.getQuantity()>=tmpRQueRQue.getQuantity()){
+                    return tmpIList.info.getPrice()*tmpRQueRQue.getQuantity();
+                }
+            }
+            tmpIList = tmpIList.next;
+        }  
+        return 0;
     }
 
 }
