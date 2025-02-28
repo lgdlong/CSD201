@@ -186,20 +186,7 @@ class ComputerStore {
         to complete the question in the exam paper.*/
         if (!RQueue.isEmpty()) {
             Item requestItem = RQueue.deQueue(); // Lấy yêu cầu đầu tiên
-            String itemName = requestItem.getName();
-            int requestedQuantity = requestItem.getQuantity();
-
-            Node currentItem = IList.head;
-            while (currentItem != null) {
-                if (currentItem.info.getName().equals(itemName)) {
-                    // Kiểm tra số lượng và cập nhật nếu đủ hàng
-                    if (currentItem.info.getQuantity() >= requestedQuantity) {
-                        currentItem.info.setQuantity(currentItem.info.getQuantity() - requestedQuantity);
-                    }
-                    break; // Chỉ duyệt và xử lý yêu cầu đầu tiên
-                }
-                currentItem = currentItem.next;
-            }
+            processPurchase(requestItem);
         }
         //------------------------------------------------------------------------------------
         ftraverse(f);
@@ -228,7 +215,9 @@ class ComputerStore {
         f.close();
     }
     
-    void processPurchase(Item requestItem) {
+    int processPurchase(Item requestItem) {
+        int S = 0;
+        
         String itemName = requestItem.getName();
         int requestedQuantity = requestItem.getQuantity();
 
@@ -238,11 +227,14 @@ class ComputerStore {
                 int availableQuantity = currentItem.info.getQuantity();
                 if (availableQuantity >= requestedQuantity) {
                     currentItem.info.setQuantity(availableQuantity - requestedQuantity);
+                    S += currentItem.info.getPrice()*requestItem.getQuantity();
                 }
                 break;
             }
             currentItem = currentItem.next;
         }
+        
+        return S;
     }
 
     void f4() throws Exception {
@@ -254,32 +246,31 @@ class ComputerStore {
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
         ftraverse(f);
-        int S = 0;
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        Node tmpRQueue = RQueue.front;
-        while(tmpRQueue!=null){
-            S = S + purchase2();
-            tmpRQueue=tmpRQueue.next;
+        int S = 0;
+        while (!RQueue.isEmpty()) {
+            Item requestItem = RQueue.deQueue();
+             S += processPurchase(requestItem);
         }
         //------------------------------------------------------------------------------------
         f.writeBytes("Money     : " + S + " ");
         f.close();
     }
-    int purchase2(){
-        Item tmpRQueRQue  = RQueue.deQueue();
-        Node tmpIList = IList.head;
-        while(tmpIList!=null){
-            if(tmpIList.info.getName().equals(tmpRQueRQue.getName())){
-                if(tmpIList.info.getQuantity()>=tmpRQueRQue.getQuantity()){
-                    return tmpIList.info.getPrice()*tmpRQueRQue.getQuantity();
-                }
-            }
-            tmpIList = tmpIList.next;
-        }  
-        return 0;
-    }
+//    int purchase2(){
+//        Item tmpRQueRQue  = RQueue.deQueue();
+//        Node tmpIList = IList.head;
+//        while(tmpIList!=null){
+//            if(tmpIList.info.getName().equals(tmpRQueRQue.getName())){
+//                if(tmpIList.info.getQuantity()>=tmpRQueRQue.getQuantity()){
+//                    return tmpIList.info.getPrice()*tmpRQueRQue.getQuantity();
+//                }
+//            }
+//            tmpIList = tmpIList.next;
+//        }  
+//        return 0;
+//    }
 
 }
