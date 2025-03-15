@@ -259,18 +259,4 @@ class ComputerStore {
         f.writeBytes("Money     : " + S + " ");
         f.close();
     }
-//    int purchase2(){
-//        Item tmpRQueRQue  = RQueue.deQueue();
-//        Node tmpIList = IList.head;
-//        while(tmpIList!=null){
-//            if(tmpIList.info.getName().equals(tmpRQueRQue.getName())){
-//                if(tmpIList.info.getQuantity()>=tmpRQueRQue.getQuantity()){
-//                    return tmpIList.info.getPrice()*tmpRQueRQue.getQuantity();
-//                }
-//            }
-//            tmpIList = tmpIList.next;
-//        }  
-//        return 0;
-//    }
-
 }
